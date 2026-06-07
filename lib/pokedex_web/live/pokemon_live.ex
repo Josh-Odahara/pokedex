@@ -41,7 +41,7 @@ defmodule PokedexWeb.PokemonLive do
       Pokedex.create_pokemon(pokemon)
     end)
 
-    {:noreply, assign(socket, loading: false, preview_data: [], active_tab: :browse)}
+    {:noreply, assign(socket, loading: false, preview_data: [], active_tab: :browse, pokemon: Pokedex.list_pokemon())}
   end
 
   def handle_event("delete_pokemon", %{"id" => id}, socket) do
@@ -119,7 +119,7 @@ defmodule PokedexWeb.PokemonLive do
           </tbody>
         </table>
 
-        <button :if={@preview_data != []} phx-click="confirm_import">Confirm Import</button>
+        <button :if={@preview_data != []} type="button" phx-click="confirm_import">Confirm Import</button>
         <div :if={@loading}>Loading...</div>
       </form>
     </div>
