@@ -68,6 +68,14 @@ defmodule PokedexWeb.PokemonLive do
     {:noreply, assign(socket, editing_pokemon: nil, pokemon: Pokedex.list_pokemon())}
   end
 
+  def handle_event("search", %{"search" => search_value}, socket) do
+    {:noreply, assign(socket, search: search_value)}
+  end
+  defp filter_pokemon(pokemon_list, ""), do: pokemon_list
+  defp filter_pokemon(pokemon_list, search) do
+    Enum.filter(pokemon_list, fn pokemon -> String.contains?(pokemon.name, search) end)
+  end
+
   def render(assigns) do
     ~H"""
     <h1>Pokedex</h1>
@@ -115,6 +123,11 @@ defmodule PokedexWeb.PokemonLive do
       </form>
     </div>
 
+    <div :if={@active_tab == :browse}>
+    <form phx-change="search">
+      <input type="search" name="search" value={@search} placeholder="Search Pokemon" />
+    </form>
+
     <div :if={@editing_pokemon}>
       <h3>Editing <%= @editing_pokemon.name %></h3>
       <form phx-submit="update_pokemon">
@@ -133,7 +146,6 @@ defmodule PokedexWeb.PokemonLive do
       </form>
     </div>
 
-    <div :if={@active_tab == :browse}>
       <table>
           <thead>
             <tr>
@@ -151,7 +163,7 @@ defmodule PokedexWeb.PokemonLive do
           </thead>
 
           <tbody>
-            <tr :for={pokemon <- @pokemon}>
+            <tr :for={pokemon <- filter_pokemon(@pokemon, @search)}>
               <td><%= pokemon.number %></td>
               <td><%= pokemon.name %></td>
               <td><%= pokemon.nickname %></td>
