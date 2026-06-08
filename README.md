@@ -10,12 +10,13 @@ A work in progress Phoenix/LiveView CRUD application that handles Pokemon stat C
 - CSV Upload, preview and review
 - Tab Manager to look at your uploads
 - Live search/filter
+- Duplication protection on CSV upload
 
 ## Stack
 - Elixir/Phoenix
 - Phoenix LiveView
 - Ecto + SQLite
-- (work in progress) Tailwind CSS
+- Tailwind CSS
 
 ## Setup
 - mix deps.get
