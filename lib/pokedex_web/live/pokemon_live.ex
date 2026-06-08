@@ -139,7 +139,7 @@ defmodule PokedexWeb.PokemonLive do
 
       <div :if={@active_tab == :browse}>
         <form phx-change="search">
-          <input type="search" name="search" value={@search} placeholder="Search Pokemon" phx-change="search" />
+          <input type="search" name="search" value={@search} placeholder="Search Pokémon..." phx-change="search" class="bg-gray-800 text-white border border-gray-600 rounded-full px-4 py-2 mb-4 w-64 placeholder-gray-400 focus:outline-none focus:border-red-500" />
         </form>
 
       <div :if={@editing_pokemon}>
@@ -160,36 +160,36 @@ defmodule PokedexWeb.PokemonLive do
         </form>
       </div>
 
-      <table>
-          <thead>
+      <table class="w-full border-collapse mt-4">
+          <thead class="border-b border-gray-700 hover:bg-gray-800">
             <tr>
-              <th>Number </th>
-              <th>Name </th>
-              <th>Nickname </th>
-              <th>Type </th>
-              <th>HP </th>
-              <th>Attack </th>
-              <th>Defense </th>
-              <th>Speed </th>
-              <th>Shiny </th>
-              <th>Actions</th>
+              <th class="px-4 py-3 text-center">Number</th>
+              <th class="px-4 py-3 text-center">Name</th>
+              <th class="px-4 py-3 text-center">Nickname</th>
+              <th class="px-4 py-3 text-center">Type</th>
+              <th class="px-4 py-3 text-center">HP</th>
+              <th class="px-4 py-3 text-center">Attack</th>
+              <th class="px-4 py-3 text-center">Defense</th>
+              <th class="px-4 py-3 text-center">Speed</th>
+              <th class="px-4 py-3 text-center">Shiny</th>
+              <th class="px-4 py-3 text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr :for={pokemon <- filter_pokemon(@pokemon, @search)}>
-              <td><%= pokemon.number %></td>
-              <td><%= pokemon.name %></td>
-              <td><%= pokemon.nickname %></td>
-              <td><%= pokemon.type %></td>
-              <td><%= pokemon.hp %></td>
-              <td><%= pokemon.attack %></td>
-              <td><%= pokemon.defense %></td>
-              <td><%= pokemon.speed %></td>
-              <td><%= pokemon.shiny %></td>
-              <td>
-                <button phx-click="delete_pokemon" phx-value-id={pokemon.id}>Delete </button>
-                <button phx-click="edit_pokemon" phx-value-id={pokemon.id}> Edit</button>
+            <tr :for={pokemon <- filter_pokemon(@pokemon, @search)} class="border-b border-gray-700 hover:bg-gray-800">
+              <td class="px-4 py-3 text-center"><%= pokemon.number %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.name %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.nickname %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.type %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.hp %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.attack %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.defense %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.speed %></td>
+              <td class="px-4 py-3 text-center"><%= pokemon.shiny %></td>
+              <td class="px-4 py-3 text-center">
+                <button phx-click="edit_pokemon" phx-value-id={pokemon.id} class="text-white hover:text-gray-500"> Edit</button>
+                <button phx-click="delete_pokemon" phx-value-id={pokemon.id} class="text-red-500 hover:text-red-700">Delete</button>
               </td>
             </tr>
           </tbody>
