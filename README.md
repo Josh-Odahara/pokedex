@@ -9,7 +9,7 @@ A work in progress Phoenix/LiveView CRUD application that handles Pokemon stat C
 - Form Validation with Ecto
 - CSV Upload, preview and review
 - Tab Manager to look at your uploads
-- Live search/filter
+- Live search/filter on Browse page
 - Duplication protection on CSV upload
 
 ## Stack
