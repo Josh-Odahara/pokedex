@@ -79,8 +79,9 @@ defmodule PokedexWeb.PokemonLive do
 
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-gray-1000 text-white p-8">
-      <h1 class="text-4xl font-bold text-red-500 mb-8">Pokedex</h1>
+    <div class="min-h-screen bg-gray-900 text-white p-8">
+      <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl font-bold text-red-500 mb-8 max-w-6xl mx-auto text-center">Pokedex</h1>
 
       <div class="flex gap-4 mb-8">
         <button
@@ -98,27 +99,29 @@ defmodule PokedexWeb.PokemonLive do
       </div>
 
       <div :if={@active_tab == :upload}>
-        Upload here
+        <div class="bg-gray-800 rounded-lg p-8 max-w-4xl">
+        <h2 class="text-xl font-semibold mb-4 text-red-400">Import Pokemon CSV</h2>
         <form phx-change="validate" phx-submit="import_csv">
-          <.live_file_input upload={@uploads.csv} />
-          <button type="submit">Preview CSV</button>
-          <table>
-            <thead>
+          <.live_file_input upload={@uploads.csv} class="mb-4"/>
+          <button type="submit" class="px-6 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600">Preview CSV</button>
+
+          <table :if={@preview_data != []} class="w-full border-collapse mt-4">
+            <thead class="bg-gray-700 text-red-400">
               <tr>
-                <th>Number </th>
-                <th>Name </th>
-                <th>Nickname </th>
-                <th>Type </th>
-                <th>HP </th>
-                <th>Attack </th>
-                <th>Defense </th>
-                <th>Speed </th>
-                <th>Shiny </th>
+                <th class="px-4 py-3 text-center">Number </th>
+                <th class="px-4 py-3 text-center">Name </th>
+                <th class="px-4 py-3 text-center">Nickname </th>
+                <th class="px-4 py-3 text-center">Type </th>
+                <th class="px-4 py-3 text-center">HP </th>
+                <th class="px-4 py-3 text-center">Attack </th>
+                <th class="px-4 py-3 text-center">Defense </th>
+                <th class="px-4 py-3 text-center">Speed </th>
+                <th class="px-4 py-3 text-center">Shiny </th>
               </tr>
             </thead>
 
             <tbody>
-              <tr :for={pokemon <- @preview_data}>
+              <tr :for={pokemon <- @preview_data} class="border-b border=gray=700 text-center">
                 <td><%= pokemon.number %></td>
                 <td><%= pokemon.name %></td>
                 <td><%= pokemon.nickname %></td>
@@ -132,32 +135,51 @@ defmodule PokedexWeb.PokemonLive do
             </tbody>
           </table>
 
-          <button :if={@preview_data != []} type="button" phx-click="confirm_import">Confirm Import</button>
+          <button :if={@preview_data != []} type="button" phx-click="confirm_import" class="mt-4 px-6 py-2 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600">
+            Confirm Import
+          </button>
+
           <div :if={@loading}>Loading...</div>
             </form>
           </div>
 
+        </div>
+
+
       <div :if={@active_tab == :browse}>
         <form phx-change="search">
-          <input type="search" name="search" value={@search} placeholder="Search Pokémon..." phx-change="search" class="bg-gray-800 text-white border border-gray-600 rounded-full px-4 py-2 mb-4 w-64 placeholder-gray-400 focus:outline-none focus:border-red-500" />
+          <input type="search" name="search" value={@search} placeholder="Search Pokémon..." phx-change="search" class=" text-center bg-gray-800 text-white border border-gray-600 rounded-full px-4 py-2 mb-4 w-64 placeholder-gray-400 focus:outline-none focus:border-red-500" />
         </form>
 
       <div :if={@editing_pokemon}>
-        <h3>Editing <%= @editing_pokemon.name %></h3>
+        <div class="bg-gray-800 rounded-4xl p-8">
+        <h3 class="text-xl font-semibold mb-4">Editing <%= @editing_pokemon.name %></h3>
           <form phx-submit="update_pokemon">
-            <input type="hidden" name="id" value={@editing_pokemon.id} />
-            <input type="number" name="number" value={@editing_pokemon.number} />
-            <input type="text" name="name" value={@editing_pokemon.name} />
-            <input type="text" name="nickname" value={@editing_pokemon.nickname} />
-            <input type="text" name="type" value={@editing_pokemon.type} />
-            <input type="number" name="hp" value={@editing_pokemon.hp} />
-            <input type="number" name="attack" value={@editing_pokemon.attack} />
-            <input type="number" name="defense" value={@editing_pokemon.defense} />
-            <input type="number" name="speed" value={@editing_pokemon.speed} />
-            <input type="checkbox" name="shiny" checked={@editing_pokemon.shiny} />
-            <button type="submit">Save</button>
-            <button type="button" phx-click="cancel_edit">Cancel</button>
+            <label class="mt-4 mb-1 block font-semibold">Number</label>
+            <input type="hidden" name="id" value={@editing_pokemon.id} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <input type="number" name="number" value={@editing_pokemon.number} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Name</label>
+            <input type="text" name="name" value={@editing_pokemon.name} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Nickname</label>
+            <input type="text" name="nickname" value={@editing_pokemon.nickname} placeholder="If no Nickname, leave blank" class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Type</label>
+            <input type="text" name="type" value={@editing_pokemon.type} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">HP</label>
+            <input type="number" name="hp" value={@editing_pokemon.hp} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Attack</label>
+            <input type="number" name="attack" value={@editing_pokemon.attack} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Defense</label>
+            <input type="number" name="defense" value={@editing_pokemon.defense} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">Speed</label>
+            <input type="number" name="speed" value={@editing_pokemon.speed} class="bg-gray-700 rounded px-3 py-2 w-full grid grid-cols-2 gap-4" />
+            <label class="mt-4 mb-1 block font-semibold">
+            Shiny
+            <input type="checkbox" name="shiny" checked={@editing_pokemon.shiny} class="ml-2" />
+            </label>
+            <button type="submit" class="px-6 py-2 mt-4 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600">Save</button>
+            <button type="button" phx-click="cancel_edit" class="px-6 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600">Cancel</button>
         </form>
+        </div>
       </div>
 
       <table class="w-full border-collapse mt-4">
@@ -186,7 +208,7 @@ defmodule PokedexWeb.PokemonLive do
               <td class="px-4 py-3 text-center"><%= pokemon.attack %></td>
               <td class="px-4 py-3 text-center"><%= pokemon.defense %></td>
               <td class="px-4 py-3 text-center"><%= pokemon.speed %></td>
-              <td class="px-4 py-3 text-center"><%= pokemon.shiny %></td>
+              <td class="px-4 py-3 text-center"><%= if pokemon.shiny, do: "Yes", else: "No" %></td>
               <td class="px-4 py-3 text-center">
                 <button phx-click="edit_pokemon" phx-value-id={pokemon.id} class="text-white hover:text-gray-500"> Edit</button>
                 <button phx-click="delete_pokemon" phx-value-id={pokemon.id} class="text-red-500 hover:text-red-700">Delete</button>
@@ -195,6 +217,7 @@ defmodule PokedexWeb.PokemonLive do
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   """
   end
