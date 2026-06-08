@@ -38,7 +38,9 @@ defmodule PokedexWeb.PokemonLive do
   def handle_event("confirm_import", _params, socket) do
     socket = assign(socket, loading: true)
     Enum.each(socket.assigns.preview_data, fn pokemon ->
-      Pokedex.create_pokemon(pokemon)
+      unless Pokedex.pokemon_exists?(pokemon.number) do
+        Pokedex.create_pokemon(pokemon)
+      end
     end)
 
     {:noreply, assign(socket, loading: false, preview_data: [], active_tab: :browse, pokemon: Pokedex.list_pokemon())}

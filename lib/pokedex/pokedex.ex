@@ -25,6 +25,10 @@ defmodule Pokedex.Pokedex do
     Repo.delete(pokemon)
   end
 
+  def pokemon_exists?(number) do
+    !!Repo.get_by(Pokemon, number: number)
+  end
+
   def parse_csv_row([number, name, nickname, type, hp, attack, defense, speed, shiny]) do
     %{
       number: String.to_integer(number),
