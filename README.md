@@ -3,8 +3,8 @@
 A work in progress Phoenix/LiveView CRUD application that handles Pokemon stat CSV imports, previews of the imports, confirmations and displays all imported Pokemon on another tab.
 
 ## Features
-- Create, read, update and edit items
-- Real-time UI updates via LiveView WebScokets
+- Create, read, update edit and delete items
+- Real-time UI updates via LiveView WebSockets
 - SQLite database with Ecto
 - Form Validation with Ecto
 - CSV Upload, preview and review
