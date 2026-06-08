@@ -66,6 +66,7 @@ defmodule PokedexWeb.PokemonLive do
   def handle_event("update_pokemon", params, socket) do
     id = String.to_integer(params["id"])
     pokemon = Pokedex.get_pokemon(id)
+    params = Map.put(params, "shiny", params["shiny"] == "on")
     Pokedex.update_pokemon(pokemon, params)
     {:noreply, assign(socket, editing_pokemon: nil, pokemon: Pokedex.list_pokemon())}
   end
